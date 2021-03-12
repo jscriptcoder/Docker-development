@@ -1,0 +1,13 @@
+server {
+    listen ${NGINX_PORT};
+
+    location / {
+        root /usr/share/nginx/html;
+        index index.html index.htm;
+    }
+
+    location /api {
+        include proxy_params;
+        proxy_pass ${PROXY_TARGET};
+    }
+}
