@@ -1,0 +1,8 @@
+FROM node:14.16-alpine
+
+WORKDIR /usr/myapp
+
+COPY . .
+
+RUN npm install
+CMD npm start
