@@ -8,10 +8,15 @@ export default function App() {
       const response = await fetch('/api/run-process', { method: 'POST' })
       
       if (response.status === 200) {
-        const processId = response.text()
+        const processId = await response.text()
         notification.info({
           message: 'Process Running',
-          description: `A very long process with id ${processId} is ongoing`
+          description: (
+            <span>
+              A very long process is ongoing. 
+              Process ID: <strong>{processId.slice(0, 16)}</strong>
+            </span>
+          )
         })
       } else {
         notification.error({

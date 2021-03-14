@@ -6,8 +6,7 @@ from .api_routes import api
 
 def create():
     app = Flask(__name__)
-
-    # App configuration
+    
     config_class = os.environ.get('APP_SETTINGS') or 'myapp.config.Config'
     app.config.from_object(config_class)
 
