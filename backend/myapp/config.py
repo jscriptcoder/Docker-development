@@ -15,5 +15,7 @@ class Config:
     APP_HOST = os.environ.get('APP_HOST') or 'localhost'
     APP_PORT = os.environ.get('APP_PORT') or '5000'
     
+    REDIS_URL = os.environ.get('REDIS_URL') or 'redis://'
+    
     RUN_DEBUG = True
     LOG_LEVEL = 'DEBUG'
