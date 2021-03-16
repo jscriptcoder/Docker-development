@@ -14,7 +14,7 @@ def run_process():
     db.session.add(process)
     db.session.commit()
 
-    current_app.task_queue.enqueue('worker.do_work', process_id)
+    current_app.task_queue.enqueue('worker.run_process', process_id)
 
     return process_id
 
@@ -23,7 +23,9 @@ def run_process():
 def work_done(process_id):
     process = ProcessModel.query.get(process_id)
 
-    process.done = True
+    process.result = result
     db.session.commit()
+
+    # Do we want to communicate? WebSockets?
 
 

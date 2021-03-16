@@ -10,9 +10,7 @@ services:
       MYSQL_DATABASE: myapp
       MYSQL_USER: user
       MYSQL_PASSWORD: userpassword
-    build: 
-      context: ./storage
-      dockerfile: Dockerfile.dev
+    build: ./storage
     volumes: 
       - ./data/db:/var/lib/mysql
     networks: 
@@ -30,10 +28,8 @@ services:
     image: myapp-rq-develop
     environment:
       REDIS_URL: redis://redis:6379
-      CAMPAIGN_API: http://backend:5000
-    build: 
-      context: ./redis-queue
-      dockerfile: Dockerfile.dev
+      BACKEND_API: http://backend:5000
+    build: ./redis-queue
     depends_on: 
       - redis
     networks: 
@@ -42,8 +38,8 @@ services:
   backend:
     image: myapp-api-develop
     environment:
-      APP_SETTINGS: config.ConfigLocalDocker
-      APP_HOST: localhost
+      APP_SETTINGS: config.Config
+      APP_HOST: 0.0.0.0
       APP_PORT: 5000
       REDIS_URL: redis://redis:6379
       DATABASE_URL: mysql+pymysql://user:userpassword@storage/myapp

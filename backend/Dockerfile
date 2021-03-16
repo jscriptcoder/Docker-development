@@ -1,18 +1,11 @@
-FROM node:14.16-alpine as build
+FROM python:3.9-slim
 
 WORKDIR /usr/myapp
 
+RUN apt-get update
+
+COPY requirements.txt .
+RUN pip install --disable-pip-version-check -r requirements.txt
+
 COPY . .
-
-RUN npm install
-RUN npm run build
-
-FROM nginx:1.19.8-alpine
-
-COPY --from=build /usr/myapp/dist /usr/share/nginx/html
-COPY nginx/proxy_params /etc/nginx/proxy_params
-
-# The image will run /docker-entrypoint.d/20-envsubst-on-templates.sh
-# which runs envsubst on /etc/nginx/templates/nginx.conf.template to 
-# /etc/nginx/conf.d/nginx.conf
-COPY nginx/nginx.conf.template /etc/nginx/templates/nginx.conf.template
+CMD gunicorn --workers 4 --threads 20 --bind 0.0.0.0:5000 --log-level info --reload wsgi:app

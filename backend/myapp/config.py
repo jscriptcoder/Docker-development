@@ -5,7 +5,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'super secret key!'
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'Secret key!'
 
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI') or \
         'sqlite:///' + os.path.join(basedir, 'myapp.sqlite')
@@ -18,4 +18,10 @@ class Config:
     REDIS_URL = os.environ.get('REDIS_URL') or 'redis://'
     
     RUN_DEBUG = True
-    LOG_LEVEL = 'DEBUG'
+    LOG_LEVEL = 'debug'
+
+
+class ConfigProd(Config):
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'Super secret key!!'
+    RUN_DEBUG = False
+    LOG_LEVEL = 'info'
