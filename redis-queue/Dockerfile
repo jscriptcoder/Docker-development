@@ -1,6 +1,6 @@
 FROM python:3.9-slim
 
-WORKDIR /usr/myapp
+WORKDIR /usr/app
 
 RUN apt-get update
 

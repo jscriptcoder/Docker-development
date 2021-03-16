@@ -1,6 +1,7 @@
 from uuid import uuid4
 from flask import Blueprint, request, jsonify, current_app
 from .db_models import ProcessModel
+from .db import db
 
 
 api = Blueprint('api', __name__, url_prefix='/api')
@@ -14,7 +15,7 @@ def run_process():
     db.session.add(process)
     db.session.commit()
 
-    current_app.task_queue.enqueue('worker.run_process', process_id)
+    current_app.task_queue.enqueue('worker.do_work', process_id)
 
     return process_id
 
@@ -22,10 +23,11 @@ def run_process():
 @api.route('/work-done/<process_id>', methods=['POST'])
 def work_done(process_id):
     process = ProcessModel.query.get(process_id)
-
-    process.result = result
+    
+    process.update(result=request.data)
     db.session.commit()
 
     # Do we want to communicate? WebSockets?
+    return 'OK'
 
 

@@ -1,3 +1,4 @@
+import os
 import time
 import hashlib
 import requests
@@ -9,7 +10,9 @@ api_url = f'{BACKEND_API}/api'
 
 def do_work(process_id):
     # Start: work that takes very long time
-    result = hashlib.md5(process_id)
+    encoded_process_id = process_id.encode('utf-8')
+    hash_object = hashlib.md5(encoded_process_id)
+    result = hash_object.hexdigest()
     time.sleep(5)
     # End
 

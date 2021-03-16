@@ -14,6 +14,7 @@ export default function App() {
           description: (
             <span>
               A very long process is ongoing. 
+              <br />
               Process ID: <strong>{processId.slice(0, 16)}</strong>
             </span>
           )

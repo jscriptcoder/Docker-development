@@ -3,7 +3,7 @@ version: "3.9"
 services:
 
   storage:
-    container_name: myapp-mysql
+    container_name: myapp-db-container
     image: myapp-db-develop
     environment: 
       MYSQL_ROOT_PASSWORD: rootpassword
@@ -17,6 +17,7 @@ services:
       - backend-network
   
   redis:
+    container_name: myapp-redis-container
     image: redis:6.2-alpine
     command: redis-server
     ports:
@@ -25,6 +26,7 @@ services:
       - redis-network
   
   redis-queue:
+    container_name: myapp-rq-container
     image: myapp-rq-develop
     environment:
       REDIS_URL: redis://redis:6379
@@ -36,9 +38,10 @@ services:
       - redis-network
   
   backend:
+    container_name: myapp-api-container
     image: myapp-api-develop
     environment:
-      APP_SETTINGS: config.Config
+      APP_SETTINGS: myapp.config.Config
       APP_HOST: 0.0.0.0
       APP_PORT: 5000
       REDIS_URL: redis://redis:6379
@@ -47,7 +50,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile.dev
     volumes: 
-      - ./backend/app:/usr/myapp/app
+      - ./backend/myapp:/usr/app/myapp
     depends_on:
       - storage
       - redis-queue
@@ -59,14 +62,17 @@ services:
       - frontend-network
   
   frontend:
+    container_name: myapp-ui-container
     image: myapp-ui-develop
     environment:
+      DEV_HOST: 0.0.0.0
+      DEV_PORT: 9000
       PROXY_TARGET: http://backend:5000
     build: 
       context: ./frontend
       dockerfile: Dockerfile.dev
     volumes: 
-      - ./frontend/src:/usr/myapp/src
+      - ./frontend/src:/usr/app/src
     depends_on:
       - backend
     ports:
