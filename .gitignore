@@ -1,6 +1,7 @@
 .vscode
+.env
 __pycache__
 node_modules
-data/db
+data/db*
 *.pyc
 *.sqlite

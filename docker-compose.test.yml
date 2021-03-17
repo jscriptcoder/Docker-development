@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+
+  backend:
+    image: myapp-api-test
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    command: 
+  
+  frontend:
+    image: myapp-ui-test
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    command: npm test

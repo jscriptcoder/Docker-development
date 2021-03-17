@@ -9,3 +9,4 @@ RUN pip install --disable-pip-version-check -r requirements.txt
 
 COPY . .
 CMD python -m myapp
+# CMD gunicorn --workers 4 --threas 20 --bind 0.0.0.0:${APP_PORT} --log-level debug --reload myapp.wsgi:app
