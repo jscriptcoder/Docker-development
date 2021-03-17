@@ -9,4 +9,4 @@ class TestFoo(TestCase):
         self.assertGreater(1, 0)
     
     def test_true(self):
-        self.assertTrue(False)
+        self.assertTrue(True)

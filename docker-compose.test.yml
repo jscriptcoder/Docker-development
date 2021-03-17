@@ -3,13 +3,15 @@ version: "3.9"
 services:
 
   backend:
+    container_name: myapp-api-container-test
     image: myapp-api-test
     build: 
       context: ./backend
       dockerfile: Dockerfile.dev
-    command: 
+    command: python -m unittest -v
   
   frontend:
+    container_name: myapp-ui-container-test
     image: myapp-ui-test
     build: 
       context: ./frontend
