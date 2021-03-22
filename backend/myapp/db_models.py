@@ -13,7 +13,7 @@ class ProcessModel(db.Model):
                 setattr(self, key, value)
 
     def to_dict(self):
-        return { 'id': self.id, 'result': self.result }
+        return {'id': self.id, 'result': self.result}
 
     def __repr__(self):
         return f'<Process {self.id}>'

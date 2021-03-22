@@ -8,7 +8,7 @@ services:
     build: 
       context: ./backend
       dockerfile: Dockerfile.dev
-    command: python -m unittest -v
+    command: sh -c "flake8 myapp/ && python -m unittest -v"
   
   frontend:
     container_name: myapp-ui-container-test

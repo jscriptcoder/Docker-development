@@ -1,0 +1,25 @@
+{
+    "root": true,
+    "extends": [
+        "airbnb",
+        "airbnb/hooks"
+    ],
+    "parser": "@babel/eslint-parser",
+    "rules": {
+        "semi": [
+            "error",
+            "never"
+        ],
+        "react/react-in-jsx-scope": "off"
+    },
+    "env": {
+        "browser": true,
+        "es2020": true
+    },
+    "settings": {
+        "import/extensions": [
+            ".js",
+            ".jsx"
+        ]
+    }
+}

@@ -1,5 +1,5 @@
 from uuid import uuid4
-from flask import Blueprint, request, jsonify, current_app
+from flask import Blueprint, request, current_app
 from .db_models import ProcessModel
 from .db import db
 
@@ -23,11 +23,9 @@ def run_process():
 @api.route('/work-done/<process_id>', methods=['POST'])
 def work_done(process_id):
     process = ProcessModel.query.get(process_id)
-    
+
     process.update(result=request.data)
     db.session.commit()
 
     # Do we want to communicate? WebSockets?
     return 'OK'
-
-
