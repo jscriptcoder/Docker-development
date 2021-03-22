@@ -1,6 +1,6 @@
 FROM node:14.16-alpine as build
 
-WORKDIR /usr/myapp
+WORKDIR /usr/app
 
 COPY package.json .
 RUN npm install
@@ -10,7 +10,7 @@ RUN npm run build
 
 FROM nginx:1.19.8-alpine
 
-COPY --from=build /usr/myapp/dist /usr/share/nginx/html
+COPY --from=build /usr/app/dist /usr/share/nginx/html
 
 # The image will run /docker-entrypoint.d/20-envsubst-on-templates.sh
 # which runs envsubst on /etc/nginx/templates/nginx.conf.template to 

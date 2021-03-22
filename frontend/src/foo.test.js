@@ -14,3 +14,8 @@ test('Test true', t => {
     t.true(true)
     t.end()
 })
+
+test('Test false', t => {
+    t.false(false)
+    t.end()
+})
