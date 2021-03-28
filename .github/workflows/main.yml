@@ -46,8 +46,8 @@ jobs:
           push: false
           load: true
           tags: myapp-backend-test:latest
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          cache-from: type=local,src=/tmp/.buildx-backend-cache
+          cache-to: type=local,dest=/tmp/.buildx-backend-cache-new
       
       - name: Test Backend
         run: |
@@ -62,8 +62,8 @@ jobs:
           push: false
           load: true
           tags: myapp-frontend-test:latest
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          cache-from: type=local,src=/tmp/.buildx-frontend-cache
+          cache-to: type=local,dest=/tmp/.buildx-frontend-cache-new
       
       - name: Test Frontend
         run: |
@@ -77,4 +77,7 @@ jobs:
       - name: Move cache
         run: |
           rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+          rm -rf /tmp/.buildx-backend-cache
+          rm -rf /tmp/.buildx-frontend-cache
+          mv /tmp/.buildx-backend-cache-new /tmp/.buildx-backend-cache
+          mv /tmp/.buildx-frontend-cache-new /tmp/.buildx-frontend-cache
