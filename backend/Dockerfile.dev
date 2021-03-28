@@ -4,8 +4,11 @@ WORKDIR /usr/app
 
 RUN apt-get update
 
-COPY requirements*.txt .
-RUN pip install --disable-pip-version-check -r requirements-dev.txt -r requirements.txt
+COPY requirements-dev.txt .
+RUN pip install --disable-pip-version-check -r requirements-dev.txt
+
+COPY requirements.txt .
+RUN pip install --disable-pip-version-check -r requirements.txt
 
 COPY . .
 CMD python -m myapp
