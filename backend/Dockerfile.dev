@@ -10,6 +10,8 @@ RUN pip install --disable-pip-version-check -r requirements-dev.txt
 COPY requirements.txt .
 RUN pip install --disable-pip-version-check -r requirements.txt
 
+RUN echo 'test'
+
 COPY . .
 CMD python -m myapp
 # CMD gunicorn --bind 0.0.0.0:${APP_PORT} --log-level debug --reload myapp.wsgi:app
