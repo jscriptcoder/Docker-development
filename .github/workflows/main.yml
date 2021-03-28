@@ -18,7 +18,7 @@ on:
       - '.github/workflows/**'
 
 jobs:
-  check-code:
+  check-backend:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,58 +26,79 @@ jobs:
         uses: actions/checkout@v2
       
       - name: Set up Docker Buildx
-        id: buildx
+        id: buildx_backend
         uses: docker/setup-buildx-action@v1
       
       - name: Cache Docker layers
         uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          key: ${{ runner.os }}-buildx-backend-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-buildx-
+            ${{ runner.os }}-buildx-backend-
 
-      - name: Build Backend Test
+      - name: Build Test Image
         uses: docker/build-push-action@v2
         with:
           context: ./backend
           file: ./backend/Dockerfile.dev
-          builder: ${{ steps.buildx.outputs.name }}
+          builder: ${{ steps.buildx_backend.outputs.name }}
           push: false
           load: true
           tags: myapp-backend-test:latest
           cache-from: type=local,src=/tmp/.buildx-backend-cache
           cache-to: type=local,dest=/tmp/.buildx-backend-cache-new
       
-      - name: Test Backend
+      - name: Lint & Test
         run: |
           docker run myapp-backend-test flake8 myapp/ && python -m unittest -v
-      
-      - name: Build Frontend Test
-        uses: docker/build-push-action@v2
-        with:
-          context: ./frontend
-          file: ./frontend/Dockerfile.dev
-          builder: ${{ steps.buildx.outputs.name }}
-          push: false
-          load: true
-          tags: myapp-frontend-test:latest
-          cache-from: type=local,src=/tmp/.buildx-frontend-cache
-          cache-to: type=local,dest=/tmp/.buildx-frontend-cache-new
-      
-      - name: Test Frontend
-        run: |
-          docker run myapp-frontend-test npm test
       
       # This ugly bit is necessary if you don't want your cache to grow forever
       # till it hits GitHub's limit of 5GB.
       # Temp fix
       # https://github.com/docker/build-push-action/issues/252
       # https://github.com/moby/buildkit/issues/1896
-      - name: Move cache
+      - name: Move Cache
         run: |
-          rm -rf /tmp/.buildx-cache
           rm -rf /tmp/.buildx-backend-cache
-          rm -rf /tmp/.buildx-frontend-cache
           mv /tmp/.buildx-backend-cache-new /tmp/.buildx-backend-cache
+
+  check-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v2
+      
+      - name: Set up Docker Buildx
+        id: buildx_frontend
+        uses: docker/setup-buildx-action@v1
+      
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-frontend-cache
+          key: ${{ runner.os }}-buildx-frontend-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-frontend-
+      
+      - name: Build Frontend Test Image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile.dev
+          builder: ${{ steps.buildx_frontend.outputs.name }}
+          push: false
+          load: true
+          tags: myapp-frontend-test:latest
+          cache-from: type=local,src=/tmp/.buildx-frontend-cache
+          cache-to: type=local,dest=/tmp/.buildx-frontend-cache-new
+      
+      - name: Lint & Test
+        run: |
+          docker run myapp-frontend-test npm test
+      
+      - name: Move Cache
+        run: |
+          rm -rf /tmp/.buildx-frontend-cache
           mv /tmp/.buildx-frontend-cache-new /tmp/.buildx-frontend-cache
