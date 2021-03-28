@@ -3,7 +3,6 @@ version: "3.9"
 services:
 
   storage:
-    container_name: myapp-db-container-dev
     image: myapp-db-dev
     environment: 
       MYSQL_ROOT_PASSWORD: rootpassword
@@ -17,7 +16,6 @@ services:
       - backend-network
   
   redis:
-    container_name: myapp-redis-container-dev
     image: redis:6.2-alpine
     command: redis-server
     ports:
@@ -26,7 +24,6 @@ services:
       - redis-network
   
   redis-queue:
-    container_name: myapp-rq-container-dev
     image: myapp-rq-dev
     environment:
       REDIS_URL: redis://redis:6379
@@ -38,8 +35,7 @@ services:
       - redis-network
   
   backend:
-    container_name: myapp-api-container-dev
-    image: myapp-api-dev
+    image: myapp-backend-dev
     environment:
       APP_SETTINGS: myapp.config.Config
       APP_HOST: 0.0.0.0
@@ -62,8 +58,7 @@ services:
       - frontend-network
   
   frontend:
-    container_name: myapp-ui-container-dev
-    image: myapp-ui-dev
+    image: myapp-frontend-dev
     environment:
       DEV_HOST: 0.0.0.0
       DEV_PORT: 9000
