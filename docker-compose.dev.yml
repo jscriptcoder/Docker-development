@@ -50,6 +50,9 @@ services:
     depends_on:
       - storage
       - redis-queue
+    command: >
+      sh -c './wait-for-it.sh storage:3306 -t 300 && 
+             python -m myapp'
     ports:
       - 5000:5000
     networks: 
