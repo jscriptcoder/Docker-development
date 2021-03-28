@@ -55,13 +55,13 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
       
-      - uses: addnab/docker-run-action@v3
-        with:
-          image: myapp-api-container-test:latest
-          shell: bash
-          run: |
-            flake8 myapp/
-            python -m unittest -v
+      # - uses: addnab/docker-run-action@v3
+      #   with:
+      #     image: myapp-api-container-test:latest
+      #     shell: bash
+      #     run: |
+      #       flake8 myapp/
+      #       python -m unittest -v
       
       # This ugly bit is necessary if you don't want your cache to grow forever
       # till it hits GitHub's limit of 5GB.
