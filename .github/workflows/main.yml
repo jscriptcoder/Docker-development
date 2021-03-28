@@ -54,13 +54,18 @@ jobs:
           file: ./backend/Dockerfile.dev
           builder: ${{ steps.buildx.outputs.name }}
           push: false
+          load: true
           tags: myapp-api-container-test:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
       
-      - name: Run linter and unit-tests
+      - name: Inspect
         run: |
-          docker run myapp-api-container-test flake8 myapp/ && python -m unittest -v
+          docker image inspect myapp-api-container-test:latest
+      
+      # - name: Run linter and unit-tests
+      #   run: |
+      #     docker run myapp-api-container-test flake8 myapp/ && python -m unittest -v
       
       # This ugly bit is necessary if you don't want your cache to grow forever
       # till it hits GitHub's limit of 5GB.
