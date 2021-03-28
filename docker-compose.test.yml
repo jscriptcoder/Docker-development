@@ -3,16 +3,14 @@ version: "3.9"
 services:
 
   backend:
-    container_name: myapp-api-container-test
-    image: myapp-api-test
+    image: myapp-backend-test
     build: 
       context: ./backend
       dockerfile: Dockerfile.dev
     command: sh -c "flake8 myapp/ && python -m unittest -v"
   
   frontend:
-    container_name: myapp-ui-container-test
-    image: myapp-ui-test
+    image: myapp-frontend-test
     build: 
       context: ./frontend
       dockerfile: Dockerfile.dev
