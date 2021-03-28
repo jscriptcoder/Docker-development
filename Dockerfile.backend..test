@@ -4,7 +4,7 @@ WORKDIR /usr/app
 
 RUN apt-get update
 
-COPY requirements*.txt ./
+COPY ./backend/requirements*.txt .
 RUN pip install \
     --disable-pip-version-check \
     -r requirements-dev.txt \
