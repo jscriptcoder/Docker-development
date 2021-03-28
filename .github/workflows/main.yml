@@ -36,18 +36,8 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
-      
-      # - name: Login to DockerHub
-      #   uses: docker/login-action@v1
-      #   with:
-      #     username: ${{ secrets.DOCKER_HUB_USERNAME }}
-      #     password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-      
-      - name: Move to backend folder
-        run: cd backend/
 
-      - name: Build test
-        id: docker_build
+      - name: Build Backend Test
         uses: docker/build-push-action@v2
         with:
           context: ./backend
@@ -55,17 +45,29 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           push: false
           load: true
-          tags: myapp-api-container-test:latest
+          tags: myapp-backend-test:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
       
-      - name: Run Linter
+      - name: Test Backend
         run: |
-          docker run myapp-api-container-test flake8 myapp/
-
-      - name: Run Tests
+          docker run myapp-backend-test flake8 myapp/ && python -m unittest -v
+      
+      - name: Build Frontend Test
+        uses: docker/build-push-action@v2
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile.dev
+          builder: ${{ steps.buildx.outputs.name }}
+          push: false
+          load: true
+          tags: myapp-frontend-test:latest
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+      
+      - name: Test Frontend
         run: |
-          docker run myapp-api-container-test python -m unittest -v
+          docker run myapp-frontend-test npm test
       
       # This ugly bit is necessary if you don't want your cache to grow forever
       # till it hits GitHub's limit of 5GB.
@@ -76,6 +78,3 @@ jobs:
         run: |
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-
-      # - name: Lint and Test code
-      #   run: docker-compose -f docker-compose.test.yml up --build
