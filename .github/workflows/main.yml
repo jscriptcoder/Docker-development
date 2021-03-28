@@ -44,7 +44,7 @@ jobs:
       #     password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
       
       - name: Move to backend folder
-        run cd backend/
+        run: cd backend/
 
       - name: Build test
         id: docker_build
