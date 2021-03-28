@@ -4,6 +4,18 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'frontend/src/**'
+      - 'frontend/package.json'
+      - 'frontend/webpack.*.js'
+      - 'frontend/.babelrc'
+      - 'frontend/.eslintrc'
+      - 'frontend/Dockerfile*'
+      - 'backend/myapp/**'
+      - 'backend/tests/**'
+      - 'backend/Dockerfile*'
+      - 'backend/requirements*.txt'
+      - '.github/workflows/**'
 
 jobs:
   check-code:
