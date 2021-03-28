@@ -18,7 +18,7 @@ on:
       - '.github/workflows/**'
 
 jobs:
-  check-backend:
+  check-code:
     runs-on: ubuntu-latest
 
     steps:
