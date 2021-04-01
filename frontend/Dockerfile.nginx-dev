@@ -1,0 +1,15 @@
+FROM node:14.16-alpine as build
+
+WORKDIR /usr/app
+
+COPY package.json .
+RUN npm install
+
+COPY . .
+RUN npm run build
+
+FROM nginx:1.19.8-alpine
+
+COPY --from=build /usr/app/dist /usr/share/nginx/html
+
+COPY nginx/nginx-nocache.conf.template /etc/nginx/templates/nginx.conf.template
