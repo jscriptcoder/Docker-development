@@ -46,7 +46,7 @@ services:
     build: ./backend
     volumes: 
       - ./backend/myapp:/usr/app/myapp
-    command: gunicorn --workers 4 --threads 20 --bind 0.0.0.0:5000 --log-level info --reload myapp.wsgi:app
+    command: gunicorn --workers 4 --threads 20 --bind 0.0.0.0:5000 --log-level debug --reload myapp.wsgi:app
     depends_on:
       - storage
       - redis-queue
@@ -62,11 +62,10 @@ services:
     environment:
       NGINX_PORT: 8080
       PROXY_TARGET: http://backend:5000
-    build: 
-      context: ./frontend
-      dockerfile: Dockerfile.nginx-dev
+    build: ./frontend
     volumes: 
-      - ./frontend/build:/usr/share/nginx/html
+      - ./frontend/src:/usr/app/src
+      - ./frontend/dist:/usr/share/nginx/html
     depends_on:
       - backend
     ports:
