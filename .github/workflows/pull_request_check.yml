@@ -1,12 +1,12 @@
 name: Main New CI
 
 on: 
-  push:
+  pull_request:
     branches:
       - main
     paths:
       - 'frontend/src/**'
-      - 'frontend/package.json'
+      - 'frontend/package*.json'
       - 'frontend/webpack.*.js'
       - 'frontend/.babelrc'
       - 'frontend/.eslintrc'

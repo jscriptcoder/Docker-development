@@ -14,4 +14,4 @@ services:
     build: 
       context: ./frontend
       dockerfile: Dockerfile.dev
-    command: npm test
+    command: sh -c "npm run lint && npm test"

@@ -1,0 +1,34 @@
+name: Main build & deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'k8s/**'
+      - 'frontend/src/**'
+      - 'frontend/nginx/**'
+      - 'frontend/package*.json'
+      - 'frontend/webpack.common.js'
+      - 'frontend/webpack.prod.js'
+      - 'frontend/.babelrc'
+      - 'frontend/.eslintrc'
+      - 'frontend/Dockerfile'
+      - 'backend/myapp/**'
+      - 'backend/Dockerfile'
+      - 'backend/requirements.txt'
+      - '.github/workflows/**'
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v2
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v2
