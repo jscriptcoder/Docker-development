@@ -46,9 +46,9 @@ jobs:
         with:
           context: ./storage
           push: true
-          tags: 
-            - myapp-db:latest
-            - myapp-db:${{ steps.build_tag.outputs.tag }}
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/myapp-db:latest,
+            ${{ secrets.DOCKERHUB_USERNAME }}/myapp-db:${{ steps.build_tag.outputs.tag }}
 
   deploy:
     runs-on: ubuntu-latest
