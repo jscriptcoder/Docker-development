@@ -7,7 +7,7 @@ services:
     build: 
       context: ./backend
       dockerfile: Dockerfile.dev
-    command: sh -c "flake8 myapp/ && python -m unittest -v"
+    command: sh -c "flake8 . && python -m unittest -v"
   
   frontend:
     image: myapp-frontend-test

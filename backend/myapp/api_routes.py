@@ -1,4 +1,5 @@
 from uuid import uuid4
+from datetime import datetime
 from flask import Blueprint, request, current_app
 from .db_models import ProcessModel
 from .db import db
@@ -24,7 +25,7 @@ def run_process():
 def work_done(process_id):
     process = ProcessModel.query.get(process_id)
 
-    process.update(result=request.data)
+    process.update(result=request.data, ended_on=datetime.utcnow)
     db.session.commit()
 
     # Do we want to communicate? WebSockets?

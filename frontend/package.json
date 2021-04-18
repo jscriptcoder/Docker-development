@@ -9,7 +9,6 @@
     "build:fast": "webpack --config webpack.fast-build.js",
     "start": "webpack serve --config webpack.dev.js",
     "lint": "eslint --ext .js,.jsx src",
-    "pretest": "npm run lint",
     "test": "node src/*.test.js"
   },
   "watch": {
