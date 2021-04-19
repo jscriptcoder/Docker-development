@@ -4,5 +4,6 @@ __pycache__
 node_modules
 data/db*
 dist
+secret_key
 *.pyc
 *.sqlite

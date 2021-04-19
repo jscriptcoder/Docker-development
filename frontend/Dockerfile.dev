@@ -1,5 +1,12 @@
 FROM node:14.16-alpine
 
+RUN apk add git openssh-client
+
+RUN mkdir -p /root/.ssh
+COPY ssh /root/.ssh
+RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
+RUN chmod 0600 /root/.ssh/secret_key
+
 WORKDIR /usr/app
 
 COPY package*.json .
