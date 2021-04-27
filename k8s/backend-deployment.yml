@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: backend
+  template:
+    metadata:
+      labels:
+        component: backend
+    spec:
+      containers:
+        - name: backend
+          image: researchlabai/myapp-backend
+          ports:
+            - containerPort: 5000
+          env:
+            - name: APP_SETTINGS
+              value: myapp.config.ConfigProd
+            - name: REDIS_URL
+              value: redis://redis:6379
+            - name: APP_HOST
+              value: 0.0.0.0
+            - name: APP_PORT
+              value: "5000"
+            - name: SECRET_KEY
+              value: ${SECRET_KEY}
+            - name: DATABASE_URI
+              value: mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@storage/${MYSQL_DATABASE}
