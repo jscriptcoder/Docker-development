@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: storage-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: storage
+  template:
+    metadata:
+      labels:
+        component: storage
+    spec:
+      volumes:
+        - name: storage-volume
+          persistentVolumeClaim:
+            claimName: storage-pvc
+      containers:
+        - name: storage
+          image: researchlabai/myapp-db
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: storage-volume
+              mountPath: /var/lib/mysql
+              subPath: postgres
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: ${MYSQL_ROOT_PASSWORD}
+            - name: MYSQL_DATABASE
+              value: ${MYSQL_DATABASE}
+            - name: MYSQL_USER
+              value: ${MYSQL_USER}
+            - name: MYSQL_PASSWORD
+              value: ${MYSQL_PASSWORD}
