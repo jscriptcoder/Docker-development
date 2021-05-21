@@ -24,13 +24,12 @@ spec:
           volumeMounts:
             - name: storage-volume
               mountPath: /var/lib/mysql
-              subPath: postgres
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: ${MYSQL_ROOT_PASSWORD}
+              value: rootpassword
             - name: MYSQL_DATABASE
-              value: ${MYSQL_DATABASE}
+              value: myapp
             - name: MYSQL_USER
-              value: ${MYSQL_USER}
+              value: user
             - name: MYSQL_PASSWORD
-              value: ${MYSQL_PASSWORD}
+              value: userpassword
