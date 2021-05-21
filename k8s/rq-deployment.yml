@@ -17,6 +17,6 @@ spec:
           image: researchlabai/myapp-rq
           env:
             - name: REDIS_URL
-              value: redis://redis:6379
+              value: redis-service-clusterip
             - name: BACKEND_API
-              value: http://backend:5000
+              value: backend-service-clusterip
